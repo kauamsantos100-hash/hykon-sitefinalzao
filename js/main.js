@@ -14,7 +14,7 @@
   // (o site só consegue INSERIR mensagens, nunca ler).
   var SUPABASE_URL = 'https://fcoozfwohljwnkjxzvlr.supabase.co';
   var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZjb296ZndvaGxqd25ranh6dmxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxMzk2MzUsImV4cCI6MjEwODcxNTYzNX0.RZxclHma9O-H0UizicFwgN8icW5hRjjEoRqKEoTP6wI';
-  var CONTACT_EMAIL = 'contato@hykon.com.br';
+  var CONTACT_EMAIL = kauamsantos100@gmail.com.br';
 
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
