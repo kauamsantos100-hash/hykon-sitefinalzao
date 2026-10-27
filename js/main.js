@@ -9,12 +9,7 @@
   // (ex.: Formspree: https://formspree.io/f/SEU_ID) e cole abaixo.
   // Vazio = abre o aplicativo de e-mail do visitante já preenchido (mailto).
   var FORM_ENDPOINT = '';
-  // Supabase (banco de dados): cole aqui a URL do projeto e a chave "anon public".
-  // A chave anon é pública por design; quem protege os dados é a regra RLS do supabase/schema.sql
-  // (o site só consegue INSERIR mensagens, nunca ler).
-  var SUPABASE_URL = 'https://fcoozfwohljwnkjxzvlr.supabase.co';
-  var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZjb296ZndvaGxqd25ranh6dmxyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxMzk2MzUsImV4cCI6MjEwODcxNTYzNX0.RZxclHma9O-H0UizicFwgN8icW5hRjjEoRqKEoTP6wI';
-  var CONTACT_EMAIL = kauamsantos100@gmail.com.br';
+  var CONTACT_EMAIL = 'contato@hykon.com.br';
 
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
@@ -269,19 +264,6 @@
       if (bad.length) { bad[0].focus(); status.textContent = 'Revise os campos destacados.'; status.classList.add('err'); return; }
       var data = {}; new FormData(form).forEach(function (v, k) { data[k] = v; });
       var btn = $('button[type=submit]', form);
-      if (data.website) { form.reset(); return; } // honeypot anti-spam
-      if (SUPABASE_URL && SUPABASE_ANON_KEY) {
-        btn.classList.add('loading'); btn.setAttribute('aria-busy', 'true');
-        fetch(SUPABASE_URL + '/rest/v1/contatos', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Prefer': 'return=minimal' },
-          body: JSON.stringify({ nome: data.nome.trim(), email: data.email.trim(), telefone: (data.telefone || '').trim() || null, assunto: data.assunto.trim(), mensagem: data.mensagem.trim() })
-        })
-          .then(function (r) { if (!r.ok) throw new Error(); form.reset(); status.textContent = 'Mensagem enviada! Retornamos em até 1 dia útil.'; status.classList.add('ok'); })
-          .catch(function () { status.textContent = 'Não foi possível enviar agora. Tente de novo ou escreva para ' + CONTACT_EMAIL + '.'; status.classList.add('err'); })
-          .finally(function () { btn.classList.remove('loading'); btn.removeAttribute('aria-busy'); });
-        return;
-      }
       if (!FORM_ENDPOINT) {
         var body = 'Nome: ' + data.nome + '\nE-mail: ' + data.email + '\nTelefone: ' + (data.telefone || '-') + '\n\n' + data.mensagem;
         window.location.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + encodeURIComponent(data.assunto) + '&body=' + encodeURIComponent(body);
